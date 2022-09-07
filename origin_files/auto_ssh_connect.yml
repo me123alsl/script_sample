@@ -2,14 +2,17 @@
 - name: Automate SSH connections from ansible-server to ansible-client
   hosts: all
   connection: local
-  serial: 1
+  # serial: 1
   gather_facts: no
   vars:
       ansible_user: ansible
       ansible_password: ansible
-      # ansible_python_interpreter: /usr/bin/python3
+      ansible_python_interpreter: /usr/bin/python3
 
   tasks:
+      - name: view extra-vars
+        debug: msg="{{ansible_user}}"
+
       - name: ssh-keyscan for known-hosts
         command: /usr/bin/ssh-keyscan -t ecdsa {{ ansible_host }}
         register: keyscan
@@ -26,14 +29,15 @@
         command: "ssh-keygen -b 2048 -t rsa -f ~/.ssh/id_rsa -q -N ''"
         ignore_errors: yes
         run_once: true
-        response:
-          "Overwrite": "n" ## Overwrite (y/n)?
         args:
           creates: "~/.ssh/id_rsa"
 
       - name: input key for each client
         connection: ssh
         authorized_key:
-            user: vagrant
+            user: "{{ansible_user}}"
             state: present
             key: "{{lookup('file','~/.ssh/id_rsa.pub')}}"
+
+      - name: Ping Test Sample
+        ping:

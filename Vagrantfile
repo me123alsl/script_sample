@@ -10,8 +10,7 @@ Vagrant.configure("2") do |config|
           vb.name = "ansible-client001"
       end
       cfg.vm.host_name = "ansible-client001"
-      cfg.vm.network "public_network", ip: "192.168.1.1"
-      cfg.vm.network "public_network", bridge: "Realtek PCIe GbE Family Controller"
+      cfg.vm.network "public_network", ip: "192.168.1.1", bridge: "Realtek PCIe GbE Family Controller"
       cfg.vm.network "forwarded_port", guest: 22, host: 60001, auto_correct: true, id: "ssh"
       cfg.vm.network "forwarded_port", guest: 80, host: 60081, auto_correct: true
       cfg.vm.synced_folder "./shared_data", "/shared_data", disabled: true
@@ -27,8 +26,7 @@ Vagrant.configure("2") do |config|
           vb.name = "ansible-client002"
       end
       cfg.vm.host_name = "ansible-client002"
-      cfg.vm.network "public_network", ip: "192.168.1.2"
-      cfg.vm.network "public_network", bridge: "Realtek PCIe GbE Family Controller"
+      cfg.vm.network "public_network", ip: "192.168.1.2", bridge: "Realtek PCIe GbE Family Controller"
       cfg.vm.network "forwarded_port", guest: 22, host: 60002, auto_correct: true, id: "ssh"
       cfg.vm.network "forwarded_port", guest: 80, host: 60082, auto_correct: true
       cfg.vm.synced_folder "./shared_data", "/shared_data", disabled: true
@@ -44,8 +42,7 @@ Vagrant.configure("2") do |config|
           vb.name = "ansible-client003"
       end
       cfg.vm.host_name = "ansible-client003"
-      cfg.vm.network "public_network", ip: "192.168.1.3"
-      cfg.vm.network "public_network", bridge: "Realtek PCIe GbE Family Controller"
+      cfg.vm.network "public_network", ip: "192.168.1.3", bridge: "Realtek PCIe GbE Family Controller"
       cfg.vm.network "forwarded_port", guest: 22, host: 60003, auto_correct: true, id: "ssh"
       cfg.vm.network "forwarded_port", guest: 80, host: 60083, auto_correct: true
       cfg.vm.synced_folder "./shared_data", "/shared_data", disabled: true
@@ -61,7 +58,7 @@ Vagrant.configure("2") do |config|
           vb.name="ansible-server"
       end
       cfg.vm.host_name = "ansible-server"
-      cfg.vm.network "public_network", ip: "192.168.1.10"
+      cfg.vm.network "public_network", ip: "192.168.1.10", bridge: "Realtek PCIe GbE Family Controller"
       cfg.vm.network "forwarded_port", guest: 22, host: 60010, auto_correct: true, id: "ssh"
       cfg.vm.synced_folder "./shared_data/", "/shared_data", disabled: false
     #   cfg.vm.provision "shell", inline: "sudo apt update"
