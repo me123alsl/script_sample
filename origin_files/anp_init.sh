@@ -82,18 +82,26 @@ start_msg $COMM
 view_args
 finish_msg $COMM
 
+# 1. 기본패키지 저장 (SSH)
 COMM="Install Packages"
 start_msg $COMM
 install_packages
 finish_msg $COMM
 
-
-
+#2. OpenMSA 유저 생성 + Sudo 권한 부여
 COMM="Create OpenMSA User"
 start_msg $COMM
-# ./crearte_user -c -u $ANSIBLE_USER -p $ANSIBLE_PASS
-start_msg $COMM
+RESULT=$( ./create_user.sh -c -u $ANSIBLE_USER -p $ANSIBLE_PASS )
+echo $RESULT
+finish_msg $COMM
 
+#3. Python 3.8 설치
+COMM="ddd"
+start_msg $COMM
+# function 
+finish_msg $COMM
+
+#4. SSH 
 COMM="initialize SSH Connection"
 start_msg $COMM
 # ansible-playbook auto_ssh_connect.yml --extra-vars "{\"ansible_user\":\"$ANSIBLE_USER\", \"ansible_password\":\"$ANSIBLE_PASS\"}"
