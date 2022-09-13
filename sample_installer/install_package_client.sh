@@ -68,5 +68,6 @@ EOF
 
 
 # Start Script
-check_python; 
-install_package;
+check_python
+
+install_package

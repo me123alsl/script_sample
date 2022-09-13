@@ -110,7 +110,6 @@ do
                 ;;
     esac
 done
-#shift $((OPTIND - 1))
 
 if [ -z $RUN_TYPE ]
 then
@@ -121,13 +120,21 @@ fi
 
 exist_user
 
+# Region Delete
 echo "##RUN_TYPE : $RUN_TYPE"
 echo "##EXIST_USER: $EXIST_USER"
+# End Region 
 
-if [ $RUN_TYPE = "CREATE" ] && [ $EXIST_USER -eq 0 ]
+
+if [ $RUN_TYPE = "CREATE" ] 
 then
-	add_user
-	exit 0
+    if [ $EXIST_USER -eq 0 ] 
+        add_user
+        exit 0
+    else
+        echo "Already exist user[$USER_NAME]"
+        exit 0
+    fi
 fi
 
 if [ $RUN_TYPE = "REMOVE" ] && [ $EXIST_USER -eq 1 ]
