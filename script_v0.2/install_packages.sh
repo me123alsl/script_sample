@@ -1,26 +1,24 @@
 #!/bin/bash
-
-# Argument is install_package_list (delimeter whitespace - " ")
 PACKAGES=$*
 
-
 # Exit Code List
-{
     # 0 = Success
     # 1 = arguemnt empty
     # 2 = Failed apt-get update
-}
 
+# Argument is install_package_list (delimeter whitespace - " ")
 usage() {
-    echo "usage: $0 [package1 package2 ...]"
-    echo "example) $0 curl wget net-tools :"
+    echo "Usage :"
+    echo "  $0 pkg1 pkg2 pkg3..."
+    echo "Example :"
+    echo "  $0 curl wget net-tools"
+    exit 1
 }
 
 validate_packages() {
     if [ "${PACKAGES}" == "" ]; then
-        echo "error - invalid PACKAGES[$PACKAGES]" 1>&2
+        echo "error - invalid packages [ $PACKAGES ]" 1>&2
         usage
-        exit 1
     fi
 }
 
@@ -36,18 +34,25 @@ update_apt_repo() {
 install_package() {
     for i in $PACKAGES
     do
-        echo "Try install $i ..."
+        echo -ne "Try install $i ...\r"
         sudo apt-get install $i -y > /dev/null
         if [ $? -eq 0 ] ; then
             echo "$i install finished."
         else
-            echo "Failed install package [$i]"
+            echo "Failed install package '$i'"
         fi
     done
     exit 0
 }
 
 # Script main start
+if [ $# -eq 0 ]; then
+    usage
+fi
+
+if [ $1 == "help" ] || [ $1 == "-help" ] || [ $1 == "--help" ] || [ $1 == "-h" ] || [ $1 == "h" ]; then 
+    usage 
+fi
 validate_packages
 update_apt_repo
 install_package
