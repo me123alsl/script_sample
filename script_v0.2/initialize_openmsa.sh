@@ -87,7 +87,6 @@ view_args() {
 
 #필수 패키지 SSH, CURL, WGET 등 설치
 initialize_packages() {
-    
     case $INSTALL_TYPE in
         server) 
            PACKAGES="
@@ -115,29 +114,29 @@ initialize_packages() {
     esac
 }
 
-install_package() {
-    if [ "${PACKAGES}" == "" ]
-    then
-        echo "error - invalid PACKAGES[$PACKAGES]" 1>&2
-        echo "install_type shoud be'server' or 'client'"
-        return 1
-    else
-        echo "installing pre-required package : ${PACKAGES}"
-        sudo apt-get update > /dev/null
-        # sudo add-apt-repository --yes --update ppa:ansible/ansible
-        for i in $PACKAGES
-        do
-            echo "Try install $i ..."
-            sudo apt-get install $i -y > /dev/null
-            if [ $? -eq 0 ] ; then
-                echo "$i install finished."
-            else
-                echo "Failed install package [$i]"
-            fi
-        done
-        return 0
-    fi
-}
+# install_package() {
+#     if [ "${PACKAGES}" == "" ]
+#     then
+#         echo "error - invalid PACKAGES[$PACKAGES]" 1>&2
+#         echo "install_type shoud be'server' or 'client'"
+#         return 1
+#     else
+#         echo "installing pre-required package : ${PACKAGES}"
+#         sudo apt-get update > /dev/null
+#         # sudo add-apt-repository --yes --update ppa:ansible/ansible
+#         for i in $PACKAGES
+#         do
+#             echo "Try install $i ..."
+#             sudo apt-get install $i -y > /dev/null
+#             if [ $? -eq 0 ] ; then
+#                 echo "$i install finished."
+#             else
+#                 echo "Failed install package [$i]"
+#             fi
+#         done
+#         return 0
+#     fi
+# }
 
 # 시작 메시지 및 결과값 초기화 (RESULT=0)
 start_msg() {
@@ -195,9 +194,9 @@ initialize_targetserver() {
 
 # 1. 기본패키지 저장 (SSH) 
 {
-    COMM="Install Packages"
+    COMM="Install pre-required Packages"
     start_msg $COMM
-    install_package
+    ./install_package "$PACKAGES"
     finish_msg $COMM
 }
 
