@@ -34,7 +34,7 @@ update_apt_repo() {
 install_package() {
     for i in $PACKAGES
     do
-        echo -ne "Try install $i ...\r"
+        echo "Try install $i ..."
         sudo apt-get install $i -y > /dev/null
         if [ $? -eq 0 ] ; then
             echo "$i install finished."
@@ -50,7 +50,7 @@ if [ $# -eq 0 ]; then
     usage
 fi
 
-if [ $1 == "help" ] || [ $1 == "-help" ] || [ $1 == "--help" ] || [ $1 == "-h" ] || [ $1 == "h" ]; then 
+if [[ $1 == "help" ] || [ $1 == "-help" ] || [ $1 == "--help" ] || [ $1 == "-h" ] || [ $1 == "h" ]]; then 
     usage 
 fi
 validate_packages

@@ -76,9 +76,5 @@ echo "##################################################"
 echo "### Check / Install python - requirement [$PY_REQUIRED]"
 echo "##################################################"
 check_python3
-echo "##################################################"
-echo "### Finished Check / Install python "
-echo "##################################################"
-echo ""
 
 #sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.8 1

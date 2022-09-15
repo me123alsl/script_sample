@@ -4,7 +4,7 @@ usage() {
         echo "Usage : "
         echo "$0 -u [username] -p [password] -s host_list"
         echo "host_list='host1 host2 host3 ...'"
-        echo "host_lsit's delimiter is whitespace(' ')"
+        echo "host_list in delimiter is whitespace(' ')"
         echo ""
 }
 
@@ -34,7 +34,8 @@ initialize_args() {
 }
 
 generate_ssh_key() {
-    USER_HOME=$(echo -n $PASS | sudo -S  su - $USER -c "echo $HOME")
+    # USER_HOME=$(echo -n $PASS | sudo -S  su - $USER -c "echo $HOME")
+    USER_HOME="/home/$USER"
     if [ -f "$USER_HOME/.ssh/id_rsa" ]; then
         echo "SKIPPED : \"$USER_HOME/.ssh/id_rsa\" exists"
         return 0

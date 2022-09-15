@@ -3,12 +3,9 @@
 ANSIBLE_USER="openmsa"
 ANSIBLE_PASS="openmsa"
 INSTALL_TYPE="client"
-INSTALL_PACKAGES=""
 READ_SERVER_TYPE=""
 MANAGED_SERVER=""
 RESULT=0
-
-ANSIBLE_HOSTS="/etc/ansible/hosts"
 
 usage() {
         echo "Usage : $0 [-u|--user 생성할 계정] [-p|--password 계정 암호] [-t|--type 설치타입(server,client)]"
@@ -54,6 +51,12 @@ initialize_args() {
         # server 타입 일 경우, 매니지드 서버 목록
         # -s 옵션 : ,(comma)단위로 작성
         # -f 옵션 : file 경로 설정. 줄넘김 단위
+        -f|--file)
+            READ_SERVER_TYPE="FILE"
+            MANAGED_SERVER="$2"
+            shift
+            ;;
+            
         -s|--servers)
             shift
             READ_SERVER_TYPE="COMMAND"
@@ -61,11 +64,7 @@ initialize_args() {
             echo "MANAGED_SERVER='$*'"
             shift
             ;;
-        -f|--file)
-            READ_SERVER_TYPE="FILE"
-            MANAGED_SERVER="$2"
-            shift
-            ;;
+
         (--) shift; break;;
         (-*) echo "$0: error - unrecognized option $1" 1>&2; usage; exit 1;;
         (*) break;;
@@ -218,36 +217,6 @@ initialize_targetserver() {
     finish_msg $COMM
 }
 
-# Ansible Hosts(/etc/ansible/hosts) 파일 서버 등록
-# create_ansible_hosts() {
-#     if [ $READ_SERVER_TYPE = "COMMAND" ]; then
-#         echo "" > sudo tee $ANSIBLE_HOSTS
-#         for server in $MANAGED_SERVER; 
-#         do 
-#             echo $server | sudo tee -a $ANSIBLE_HOSTS
-#             sudo sort -u $ANSIBLE_HOSTS
-#         done
-#     else
-#         cat $MANAGED_SERVER | sudo tee $ANSIBLE_HOSTS
-#     fi
-# }
-
-#4-1. Set SSH to 'ansible'
-# {
-#     if [ $INSTALL_TYPE == "server" ]
-#     then
-#         COMM="Create ansible hosts file"
-#         start_msg $COMM
-#         create_ansible_hosts
-#         cat $ANSIBLE_HOSTS
-#         finish_msg $COMM
-
-#         COMM="initialize SSH Connection"
-#         start_msg $COMM
-#         ansible-playbook auto_ssh_connect.yml --extra-vars "{\"ansible_user\":\"$ANSIBLE_USER\", \"ansible_password\":\"$ANSIBLE_PASS\"}"
-#         finish_msg $COMM
-#     fi
-# }
 
 
 # create ssh-key rsa
